@@ -1,5 +1,9 @@
-import Link from 'next/link';
-const pages = ['dashboard','lead-finder','lead-details','campaigns','crm','strategy','settings'];
+import BusinessFinder from '@/components/business-finder';
+
 export default function Home() {
-  return <main className="p-8"><h1 className="text-3xl font-bold">AI Agency Growth OS</h1><div className="mt-6 grid grid-cols-2 gap-3">{pages.map(p=><Link key={p} className="rounded border p-3" href={`/${p}`}>{p}</Link>)}</div></main>;
+  return <main className='max-w-5xl mx-auto p-6 space-y-6'>
+    <h1 className='text-3xl font-bold'>Local Business Finder</h1>
+    <p className='text-slate-300'>Search local businesses by keyword and location using Google Places.</p>
+    <BusinessFinder />
+  </main>;
 }

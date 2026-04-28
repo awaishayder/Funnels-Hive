@@ -1,38 +1,30 @@
-# AI Agency Growth OS
+# Local Business Finder
 
-A production-ready Next.js SaaS to discover high-intent leads, run personalized outreach, manage pipeline, and automate closing workflows.
+Next.js App Router module for finding and displaying local businesses using Google Places API (with optional Yelp fallback).
 
-## Free-first stack choices
-- **Lead source (free):** OpenStreetMap Overpass API (no API key required).
-- **Email (free):** SMTP (Gmail app password / Zoho free / Brevo free SMTP).
-- **Automation:** Inngest free tier.
-- **Database:** PostgreSQL on Neon/Supabase free tier.
-- **Deploy:** Vercel hobby tier.
+## Features
+- Search by keyword + city/location.
+- Server-side API route integration with Google Places Text Search + Place Details.
+- Optional fallback to Yelp if Google has no results.
+- Displays: name, address, phone, website, rating, review count, maps link, coordinates, and email placeholder.
+- Rate-limit friendly fetch timeout and robust error handling.
 
 ## Setup
 1. `npm install`
-2. Fill `.env` from `.env.example`
-3. `npx prisma generate`
-4. `npx prisma migrate dev`
-5. `npm run seed`
-6. `npm run dev`
+2. Copy `.env.example` to `.env.local`
+3. Add `GOOGLE_PLACES_API_KEY` (required) and optionally `YELP_API_KEY`
+4. `npm run dev`
 
-## Major Modules
-- Multi-source lead discovery API (`/api/leads`): OpenStreetMap + optional Google Places.
-- AI intent scoring (`/api/score`) + automatic scoring on discovery.
-- Business audit + outreach generation (`/api/audit`, `/api/outreach`).
-- Campaign + CRM data APIs (`/api/campaigns`, `/api/crm`, `/api/next-best`).
-- Strategy AI endpoint (`/api/strategy`) powered by OpenAI.
-- Deliverability analysis + SMTP/Resend outbound support (`/api/deliverability`, `/api/send-email`).
+## API
+`POST /api/businesses`
+```json
+{ "keyword": "dentist", "location": "Austin, TX" }
+```
 
-## Deployment (Vercel)
-1. Import repo in Vercel.
-2. Add all environment variables.
-3. Set `DATABASE_URL` to managed PostgreSQL.
-4. Run `npx prisma migrate deploy` in CI/CD.
-5. Deploy and verify `/api/leads` and `/api/send-email`.
+## Vercel Deployment
+1. Push to GitHub.
+2. Import in Vercel.
+3. Add env vars (`GOOGLE_PLACES_API_KEY`, optional `YELP_API_KEY`).
+4. Deploy.
 
-## Integration Notes
-- Keep **OpenStreetMap** as baseline free provider; layer paid APIs only for enrichment depth.
-- For outreach compliance, enforce opt-outs and sender limits in campaign scheduler.
-- Add queue-backed retries in Inngest functions for high-volume campaign sends.
+The API key remains server-side only and is never exposed to the browser.
